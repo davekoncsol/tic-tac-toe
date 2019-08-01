@@ -10,7 +10,8 @@ const COLORS = {
   
   /*----- cached element references -----*/
   
-  const msg = document.getElementById('msg');
+let msg = document.getElementById('msg');
+let sqs = document.querySelectorAll('section div');
 
   /*----- event listeners -----*/ 
   
@@ -22,11 +23,7 @@ const COLORS = {
 
 init();
 function init() {
-    board = [
-        [0,0,0],
-        [0,0,0],
-        [0,0,0]
-    ];
+    board = [null,null,null, null,null,null, null, null, null];
     turn = 1;
     winner = null;
     render();
@@ -34,47 +31,37 @@ function init() {
 
 function render() {
     
-    board.forEach(function(colArr, colIdx) {
-       colArr.forEach(function(cell, rowIdx) {
-
-    let div = document.getElementById(`sq${colIdx}`)
-    div.style.backgroundColor = COLORS[cell];
-
-       });
-    
+    board.forEach(function(sq, idx){
+        console.log(sqs, sqs[idx]);
+        sqs[idx].style.backgroundColor = COLORS[sq];
     });
-if (winner) {
-    if (winner === 'T') {
-        msg.textContent = "Tie game!"; 
-    } else {
-        msg.innerHTML = `${COLORS[winner]} Wins!`;
-    }
-    } else {
-        msg.innerHTML = `${COLORS[turn]}'s turn!`;
-    }
+
+    if (winner) {
+        if (winner === 'T') {
+            msg.textContent = "Tie game!"; 
+        } else {
+            msg.innerHTML = `${COLORS[winner]} Wins!`;
+        }
+        } else {
+            msg.innerHTML = `${COLORS[turn]}'s turn!`;
+        }
 
 
-};
+    };
 
 function clickf(evt) {
     
     // div.style.backgroundColor = COLORS[cell];
-    let idx = parseInt(document.getElementById(evt.target.id.replace('sq', '')));
-      let colArr = board.forEach(function(colIdx) {
-        colIdx.forEach(function(place) {
-          let num = place;
-        })
-
-    }
-    
-    );
-
-console.log(idx);
-idx.value = turn;
-
-idx.style.backgroundColor = COLORS[turn];
-num = turn;
-  turn *= -1;
+    let idx = parseInt(evt.target.id.replace('sq', ''));
+      console.log(idx);
+    //   if(isNaN(idx) || winner) return;
+      let colArr = board[idx];
+    console.log(board[idx]);
+    if (board[idx] || winner) return;
+    board[idx] = turn;
+    turn *= -1;    
+    render();   
 
 }
+
 
